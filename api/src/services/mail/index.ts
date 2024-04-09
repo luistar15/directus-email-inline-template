@@ -53,7 +53,11 @@ export class MailService {
 		}
 	}
 
-	async send<T>(options: EmailOptions): Promise<T> {
+	async send<T>(options: EmailOptions, optionsFilter?: Function): Promise<T> {
+		if ( optionsFilter ) {
+			options = await optionsFilter( options, { liquidEngine } );
+		}
+
 		const { template, ...emailOptions } = options;
 		let { html } = options;
 
